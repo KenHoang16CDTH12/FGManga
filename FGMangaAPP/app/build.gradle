@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "kenhoang.dev.com"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    final SUPPORT_LIBRARY_VERSION = '1.0.0-beta01'
+    //noinspection GradleCompatible
+    implementation "com.google.android.material:material:$SUPPORT_LIBRARY_VERSION"
+    implementation "androidx.cardview:cardview:$SUPPORT_LIBRARY_VERSION"
+    implementation "androidx.legacy:legacy-support-v4:$SUPPORT_LIBRARY_VERSION"
+    implementation "androidx.legacy:legacy-support-v13:$SUPPORT_LIBRARY_VERSION"
+    implementation "androidx.appcompat:appcompat:$SUPPORT_LIBRARY_VERSION"
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+
+    // Retrofit 2
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.5'
+    // PhotoView - To make image view can be zooming
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    // Picasso to display image and caching
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    // Banner Slider - to display banner
+    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
+    // Spots Dialog, for show Dialog
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    // Easy Flip ViewPager
+    implementation 'com.wajahatkarim3.easyflipviewpager:easyflipviewpager:1.0.0'
+
+}
