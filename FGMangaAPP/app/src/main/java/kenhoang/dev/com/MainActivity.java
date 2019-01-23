@@ -11,6 +11,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import dmax.dialog.SpotsDialog;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     RecyclerView recycler_comic;
     TextView tvNumberComic;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,40 @@ public class MainActivity extends AppCompatActivity {
         recycler_comic.setLayoutManager(new GridLayoutManager(this, 2));
 
         tvNumberComic = findViewById(R.id.tvNumComic);
-        // Fetch data
-        fetchBanner();
-        fetchComic();
+
+        swipeRefreshLayout = findViewById(R.id.swipeLayout);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_orange_dark
+        );
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (Common.isConnectedToInternet(getBaseContext())) {
+                    // Fetch data
+                    fetchBanner();
+                    fetchComic();
+                } else {
+                    Toast.makeText(MainActivity.this, "Cannot connected to INTERNET!!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Default load first time
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if (Common.isConnectedToInternet(getBaseContext())) {
+                    // Fetch data
+                    fetchBanner();
+                    fetchComic();
+                } else {
+                    Toast.makeText(MainActivity.this, "Cannot connected to INTERNET!!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void fetchComic() {
@@ -60,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage("Please wait ...")
                 .setCancelable(false)
                 .build();
-        dialog.show();
+        if (!swipeRefreshLayout.isRefreshing())
+            dialog.show();
 
         compositeDisposable.add(iComicAPI.getComicList()
                 .subscribeOn(Schedulers.io())
@@ -72,12 +106,16 @@ public class MainActivity extends AppCompatActivity {
                         tvNumberComic.setText(new StringBuilder("NEW COMIC (")
                                 .append(comics.size())
                                 .append(")"));
-                        dialog.dismiss();
+                        if (!swipeRefreshLayout.isRefreshing())
+                            dialog.dismiss();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        dialog.dismiss();
+                        if (!swipeRefreshLayout.isRefreshing())
+                            dialog.dismiss();
+                        swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(MainActivity.this, "Error while loading comic", Toast.LENGTH_SHORT).show();
                     }
                 }));
