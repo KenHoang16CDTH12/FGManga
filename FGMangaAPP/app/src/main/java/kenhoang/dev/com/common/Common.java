@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import kenhoang.dev.com.model.Category;
 import kenhoang.dev.com.model.Chapter;
 import kenhoang.dev.com.model.Comic;
 import kenhoang.dev.com.retrofit.IComicAPI;
@@ -20,6 +21,7 @@ public class Common  {
     public static Chapter selected_chapter;
     public static int chapter_index = -1;
     public static List<Chapter> chapterList = new ArrayList<>();
+    public static List<Category> categoryList = new ArrayList<>();
 
     public static IComicAPI getAPI() {
         return RetrofitClient.getInstance().create(IComicAPI.class);

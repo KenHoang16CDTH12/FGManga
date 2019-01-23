@@ -84,6 +84,73 @@ app.get("/links/:chapterid", (req, res, next) => {
   })
 });
 
+// Get all category
+app.get("/categories", (req, res, next) => {
+  conn.query('SELECT * FROM category', function(error, result, fields) {
+    conn.on('error', function(err) {
+      console.log('[MY SQL ERROR]', err);
+    });
+
+    if (result && result.length) {
+      res.end(JSON.stringify(result));
+    } else {
+      res.end(JSON.stringify("No category here"));
+    }
+  })
+});
+
+
+// Filter
+app.post("/filter", (req, res, next) => {
+  var post_data = req.body; // GET POST DATA from POST REQUEST
+  var array = JSON.parse(post_data.data);
+  var query = "SELECT * FROM manga WHERE ID IN (SELECT MangaID FROM mangacategory"; // Default query
+  if (array.length > 0) {
+    query += " GROUP BY MangaID";
+    if (array.length == 1) // If user just submit 1 category
+      query += " HAVING SUM (CASE WHEN CategoryID = " + array[0] + " THEN 1 ELSE 0 END) > 0)";
+    else { // If user submit more than 1 category
+      for (var i = 0; i < array.length; i++) {
+        if (i == 0)
+          query += " HAVING SUM (CASE WHEN CategoryID = " + array[i] + " THEN 1 ELSE 0 END) > 0 AND";
+        else if (i == array.length - 1)
+          query += " SUM (CASE WHEN CategoryID = " + array[i] + " THEN 1 ELSE 0 END) > 0)";
+        else
+          query += " SUM (CASE WHEN CategoryID = " + array[i] + " THEN 1 ELSE 0 END) > 0 AND";
+      }
+    }
+  }
+  conn.query(query, function(error, result, fields) {
+    conn.on('error', function(err) {
+      console.log('[MY SQL ERROR]', err);
+    });
+
+    if (result && result.length) {
+      res.end(JSON.stringify(result));
+    } else {
+      res.end(JSON.stringify("No comic here"));
+    }
+  })
+});
+
+// SEARCH MANGA BY NAME
+app.post("/search", (req, res, next) => {
+  var post_data = req.body; // GET POST DATA from POST REQUEST
+  var name_search = post_data.search;
+  var query = "SELECT * FROM manga WHERE Name LIKE '%" + name_search + "%'"; // Default query
+  conn.query(query, function(error, result, fields) {
+    conn.on('error', function(err) {
+      console.log('[MY SQL ERROR]', err);
+    });
+
+    if (result && result.length) {
+      res.end(JSON.stringify(result));
+    } else {
+      res.end(JSON.stringify("No comic here"));
+    }
+  })
+});
+
 // Start Server
 app.listen(3000, ()=>{
   console.log("KenHoang Comic API running on port 3000");
