@@ -2,16 +2,16 @@ package kenhoang.dev.com.model;
 
 public class Comic {
     private int ID;
-    private String name;
-    private String image;
+    private String Name;
+    private String Image;
 
     public Comic() {
     }
 
-    public Comic(int ID, String name, String image) {
+    public Comic(int ID, String Name, String Image) {
         this.ID = ID;
-        this.name = name;
-        this.image = image;
+        this.Name = Name;
+        this.Image = Image;
     }
 
     public int getID() {
@@ -23,18 +23,18 @@ public class Comic {
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
     public String getImage() {
-        return image;
+        return Image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage(String Image) {
+        this.Image = Image;
     }
 }

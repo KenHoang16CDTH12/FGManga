@@ -2,14 +2,15 @@ package kenhoang.dev.com.adapter;
 
 import java.util.List;
 
+import kenhoang.dev.com.common.Common;
 import kenhoang.dev.com.model.Banner;
 import ss.com.bannerslider.adapters.SliderAdapter;
 import ss.com.bannerslider.viewholder.ImageSlideViewHolder;
 
-public class MySliderAdapter extends SliderAdapter {
+public class CustomSliderAdapter extends SliderAdapter {
     private List<Banner> bannerList;
 
-    public MySliderAdapter(List<Banner> bannerList) {
+    public CustomSliderAdapter(List<Banner> bannerList) {
         this.bannerList = bannerList;
     }
 
@@ -20,6 +21,6 @@ public class MySliderAdapter extends SliderAdapter {
 
     @Override
     public void onBindImageSlide(int position, ImageSlideViewHolder imageSlideViewHolder) {
-        imageSlideViewHolder.bindImageSlide(bannerList.get(position).getLink());
+        imageSlideViewHolder.bindImageSlide(Common.URL + bannerList.get(position).getLink());
     }
 }
