@@ -15,6 +15,8 @@ var conn = mysql.createConnection({
   database: 'FGManga' // Name of database you just import
 });
 
+require('events').EventEmitter.defaultMaxListeners = 20;
+
 // Create RESTFul
 var app = express();
 var publicDir = (__dirname + '/public/'); // Set static dir for display image local by url
