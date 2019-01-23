@@ -3,7 +3,10 @@ package kenhoang.dev.com;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recycler_comic;
     TextView tvNumberComic;
     SwipeRefreshLayout swipeRefreshLayout;
+    ImageView btnFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnFilter = findViewById(R.id.btnFilter);
+        btnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, FilterCategoryActivity.class));
+            }
+        });
     }
 
     private void fetchComic() {
@@ -119,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Error while loading comic", Toast.LENGTH_SHORT).show();
                     }
                 }));
-
-
     }
 
     private void fetchBanner() {
