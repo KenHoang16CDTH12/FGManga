@@ -1,6 +1,6 @@
 <p align="center">
   <!-- Logo -->
-  <img width="320" src="https://image.ibb.co/g8MGNf/FGDev-Logo.png">
+  <img width="320" src="screenshots/FGDev-Logo.png">
 </p>
 
 <p align="center">
@@ -10,3 +10,9 @@
 </p>
 
 Vietnamese | [English](./README.md)
+
+## ScreenShots
+
+<img src="screenshots/1.jpg" width="19%"> <img src="screenshots/2.jpg" width="19%"> <img src="screenshots/3.jpg" width="19%"> <img src="screenshots/4.jpg" width="19%"> <img src="screenshots/5.jpg" width="19%">
+
+
